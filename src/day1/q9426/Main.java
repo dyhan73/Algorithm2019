@@ -30,18 +30,13 @@ public class Main {
 
         int[] tree = initTree(list, windowSize);
 
-        long midSum = 0;
-        int mid;
-        for (int i=0; i<=length - windowSize; i++) {
-            mid = getMid(tree, 1, MIN_VAL, MAX_VAL, (windowSize + 1)>> 1);
-            midSum += mid;
-//            System.out.println(mid + ", " + midSum);
+        long midSum = getMid(tree, 1, MIN_VAL, MAX_VAL, (windowSize + 1)>> 1);
 
-            if (i+windowSize < list.length) {
-                updateTree(tree, 1, MIN_VAL, MAX_VAL, list[i], -1);
-                updateTree(tree, 1, MIN_VAL, MAX_VAL, list[i + windowSize], 1);
-            }
+        for (int i=0; i<length - windowSize; i++) {
+            updateTree(tree, 1, MIN_VAL, MAX_VAL, list[i], -1);
+            updateTree(tree, 1, MIN_VAL, MAX_VAL, list[i + windowSize], 1);
 
+            midSum += getMid(tree, 1, MIN_VAL, MAX_VAL, (windowSize + 1)>> 1);
         }
         System.out.println(midSum);
     }

@@ -1,7 +1,7 @@
 package playground;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class MyTest01 {
     static void testOperators() {
@@ -33,15 +33,40 @@ public class MyTest01 {
         return result;
     }
 
+    static void testLoopingTime() {
+        System.out.println("start : " + LocalDateTime.now());
+        int[] list = new int[1000000];
+
+        // 0.009초 소요
+        for (int i=0; i<list.length; i++) {
+            list[i] = i;
+        }
+        System.out.println("array loop: " + LocalDateTime.now());
+
+        // 0.12초 소요
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        for (int i=0; i<list.length; i++) {
+            hashMap.put(i, 1);
+        }
+
+        // 0.01초 소요
+        TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+        for (int i=0; i<10000; i++) {
+            treeMap.put(i, i);
+        }
+
+        System.out.println("end   : " + LocalDateTime.now());
+    }
+
     public static void main(String[] args) {
 //        testOperators();
 
-        int[] list = genRandomInt(1000000, 1, 1000000);
-//        int[] list = genRandomInt(7, 1, 1000000);
+//        int[] list = genRandomInt(5, 1, 1000000);
 //        System.out.println(Arrays.toString(list));
-        for (int i=0; i<list.length; i++) {
-            System.out.print(list[i] + " ");
-        }
+
+//        testLoopingTime();
+        int intVal = 1000000;
+        System.out.println(intVal);
     }
 
 }

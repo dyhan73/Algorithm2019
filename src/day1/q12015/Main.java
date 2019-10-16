@@ -8,25 +8,27 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         int length = scanner.nextInt();
-        Integer[] list = new Integer[length];
+        int[] list = new int[length];
         for (int i=0; i<length; i++) {
             list[i] = scanner.nextInt();
         }
 
         System.out.println(Arrays.toString(list));
 
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int item : list) {
+        Map<Integer, Integer> map = new TreeMap<>();
+
+        for (Integer item : list) {
             System.out.println("-- Item : " + item);
             boolean isWritten = false;
-
             Map<Integer, Integer> tempMap = new HashMap<>();
+
             for (Integer key : map.keySet()) {
                 tempMap.put(key, map.get(key));
                 if (key < item) {
-                    tempMap.put(item, map.get(key) + 1);
+                    if (!tempMap.containsKey(item) || tempMap.get(item) < map.get(key) + 1)
+                        tempMap.put(item, map.get(key) + 1);
                     isWritten = true;
-                } else if (key == item) {
+                } else if (key.equals(item)) {
                     isWritten = true;
                 }
             }

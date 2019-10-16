@@ -58,6 +58,18 @@ public class MyTest01 {
         System.out.println("end   : " + LocalDateTime.now());
     }
 
+    private static void testSortable() {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(7);
+        list.add(4);
+        list.add(5);
+        list.add(7);
+        list.sort(Integer::compareTo);
+
+
+        System.out.println(list.toString());
+    }
+
     public static void main(String[] args) {
 //        testOperators();
 
@@ -65,8 +77,10 @@ public class MyTest01 {
 //        System.out.println(Arrays.toString(list));
 
 //        testLoopingTime();
-        int intVal = 1000000;
-        System.out.println(intVal);
+
+        testSortable();
     }
+
+
 
 }

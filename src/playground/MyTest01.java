@@ -78,7 +78,10 @@ public class MyTest01 {
 
 //        testLoopingTime();
 
-        testSortable();
+//        testSortable();
+        System.out.println((int)'a');
+        System.out.println((int)'z');
+        System.out.println((int)'z' - (int)'a');
     }
 
 

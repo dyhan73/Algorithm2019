@@ -20,6 +20,10 @@ import java.util.*;
  * 2차 시도 (1차시도보다 더 돌지만 시간초과)
  *   - string.substring 제거 필요 (new 제거)
  *   - 그러려면 새로운 hash 함수 필요
+ *
+ * 3차 시도
+ *   - 매번 substring 의 해시를 재개산 하는 부분 개선
+ *   - 첫 글자 값 빼고, base 곱하고, 마지막 글자 값 더하고... (뭔짓이여...)
  */
 public class RabinKarp {
     static int getHash(String input, int start, int length) {

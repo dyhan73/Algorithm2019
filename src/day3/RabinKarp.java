@@ -21,16 +21,30 @@ import java.util.*;
  *   - string.substring 제거 필요 (new 제거)
  *   - 그러려면 새로운 hash 함수 필요
  *
- * 3차 시도
+ * 3차 시도 (그래도 시간 초과)
  *   - 매번 substring 의 해시를 재개산 하는 부분 개선
  *   - 첫 글자 값 빼고, base 곱하고, 마지막 글자 값 더하고... (뭔짓이여...)
+ *   - BASE 곱하다 보니 정수범위를 넘어가서 MOD 연산 후 나머지만 비교 (같으면 실 문자열 비교)
  */
 public class RabinKarp {
+    final static int BASE = 256;
+    final static int MOD_BASE = 127;
+
     static int getHash(String input, int start, int length) {
-        final int base = 256;
         int hashVal = 0;
         for (int i=0; i<length; i++) {
-            hashVal = hashVal * base + input.charAt(start + i);
+            hashVal = hashVal * BASE + input.charAt(start + i);
+        }
+
+        return hashVal;
+    }
+
+    static int getHash02(String input, int start, int length) {
+        int hashVal = 0;
+
+        for (int i=start; i<start+length; i++) {
+            hashVal = hashVal * BASE + input.charAt(i);
+            hashVal %= MOD_BASE;
         }
 
         return hashVal;
@@ -64,13 +78,45 @@ public class RabinKarp {
         return 0;
     }
 
+    static int getRabinKarp03(String string, String pattern) {
+        int firstVal = 1;
+        for (int i=1; i<pattern.length(); i++) {
+            firstVal = firstVal * BASE % MOD_BASE;
+        }
+
+        if (string.length() < pattern.length()) return 0;
+        int p_hash = getHash02(pattern, 0, pattern.length());
+        int s_hash = getHash02(string, 0, pattern.length());
+        if (p_hash == s_hash
+                && pattern.equals(string.substring(0, pattern.length())))
+            return 1;
+
+        for (int start=1; start <= string.length() - pattern.length(); start++) {
+            s_hash = s_hash - firstVal * string.charAt(start - 1) % MOD_BASE + MOD_BASE;
+            s_hash %= MOD_BASE;
+            s_hash = s_hash * BASE + string.charAt(start + pattern.length() - 1);
+            s_hash %= MOD_BASE;
+
+            if (p_hash == s_hash
+                    && pattern.equals(string.substring(start, start + pattern.length())))
+                    return 1;
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
-//        System.out.println(getRabinKarp02("Sealover", "ver"));
+        System.out.println(getRabinKarp03("Sealover", "ver"));
+        System.out.println(getRabinKarp03("Sealover", "Sea"));
+        System.out.println(getRabinKarp03("Sealover", "iSea"));
+        System.out.println(getRabinKarp03("Sealover", "love"));
+        System.out.println(getRabinKarp03("Sealover", "verk"));
+        System.out.println(getRabinKarp03("Sealover", "Sealover"));
+        System.out.println(getRabinKarp03("oooooooooooooooooooooooooooooooooooooooooooo111111111111111111111oooooooooooooooooooooooooooooooooooooooooooo", "1oooooooooooooooooooooooooooooooooooooooooooo"));
 
-        Scanner sc = new Scanner(System.in);
-        String string = sc.nextLine();
-        String pattern = sc.nextLine();
-
-        System.out.println(getRabinKarp02(string, pattern));
+//        Scanner sc = new Scanner(System.in);
+//        String string = sc.nextLine();
+//        String pattern = sc.nextLine();
+//
+//        System.out.println(getRabinKarp03(string, pattern));
     }
 }
